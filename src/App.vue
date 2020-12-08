@@ -4,7 +4,18 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <van-button type="primary">主要按钮</van-button>
+    <van-button type="info">信息按钮</van-button>
+    <van-button type="default">默认按钮</van-button>
+    <van-button type="warning">警告按钮</van-button>
+    <van-button type="danger">危险按钮</van-button>
+    <van-row type="flex">
+      <van-col span="6">span: 6</van-col>
+      <van-col span="6">span: 6</van-col>
+      <van-col span="6">span: 6</van-col>
+      <van-col span="6">span: 6</van-col>
+    </van-row>
+    <router-view />
   </div>
 </template>
 
