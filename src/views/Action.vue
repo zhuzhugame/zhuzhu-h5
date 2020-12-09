@@ -3,9 +3,6 @@
     <HelloWorld class="zhuzhu" />
     <HelloWorld class="cap" />
     <HelloWorld class="clothes" />
-    <HelloWorld class="shoe" />
-    <HelloWorld class="weapon" />
-    <HelloWorld class="cloak" />
   </div>
 </template>
 
@@ -14,7 +11,7 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 
 export default {
-  name: "Home",
+  name: "Action",
   components: {
     HelloWorld,
   },
