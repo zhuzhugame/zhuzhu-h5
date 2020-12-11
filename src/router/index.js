@@ -3,24 +3,57 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Action from '../views/Action.vue'
 import Attr from '../views/Attr.vue'
+import Friend from '../views/Friend.vue'
+import Main from '../views/Main.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+import Game from '../views/Game.vue'
+import Fight from '../views/Fight.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: Login
   },
   {
-    path: '/action',
-    name: 'Action',
-    component: Action
+    path: '/login',
+    component: Login
   },
   {
-    path: '/attr',
-    name: 'Attr',
-    component: Attr
+    path: '/register',
+    component: Register
+  },
+  {
+    path: '/fight',
+    component: Fight
+  },
+  {
+    path: '/game',
+    component: Game,
+    children: [
+      {
+        path: 'home',
+        component: Home
+      },
+      {
+        path: 'action',
+        component: Action
+      },
+      {
+        path: 'attr',
+        component: Attr
+      },
+      {
+        path: 'friend',
+        component: Friend
+      },
+      {
+        path: 'main',
+        component: Main
+      },
+    ],
   },
 ]
 

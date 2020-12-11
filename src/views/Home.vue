@@ -1,73 +1,33 @@
 <template>
   <div>
-    <HelloWorld class="zhuzhu" />
-    <HelloWorld class="cap" />
-    <HelloWorld class="clothes" />
-    <HelloWorld class="shoe" />
-    <HelloWorld class="weapon" />
-    <HelloWorld class="cloak" />
+    <van-tabs v-model="active">
+      <van-tab title="管家猪">
+        <van-cell-group title="包裹">
+          <van-grid :column-num="5">
+            <van-grid-item
+              v-for="value in 7"
+              :key="value"
+              icon="photo-o"
+              text="文字"
+            />
+          </van-grid>
+        </van-cell-group>
+      </van-tab>
+      <van-tab title="铁匠猪">内容 2</van-tab>
+      <van-tab title="客服猪">内容 4</van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
-  },
-};
+  data() {
+    return {
+      active: 0
+    }
+  }
+}
 </script>
 
 <style scoped>
-.zhuzhu {
-  position: fixed;
-  left: 33%;
-  top: 0%;
-  width: 67%;
-  height: 66%;
-  background-color: blue;
-}
-.cap {
-  position: fixed;
-  left: 0%;
-  top: 0%;
-  height: 33%;
-  width: 33%;
-  background-color: green;
-}
-.clothes {
-  position: fixed;
-  left: 0%;
-  top: 33%;
-  height: 33%;
-  width: 33%;
-  background-color: red;
-}
-.shoe {
-  position: fixed;
-  left: 0%;
-  top: 66%;
-  height: 33%;
-  width: 33%;
-  background-color: salmon;
-}
-.weapon {
-  position: fixed;
-  left: 33%;
-  top: 66%;
-  height: 33%;
-  width: 33%;
-  background-color: darkcyan;
-}
-.cloak {
-  position: fixed;
-  left: 66%;
-  top: 66%;
-  height: 33%;
-  width: 34%;
-  background-color: saddlebrown;
-}
 </style>
