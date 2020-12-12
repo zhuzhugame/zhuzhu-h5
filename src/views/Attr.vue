@@ -6,27 +6,48 @@
 
 <script>
 import { Radar } from '@antv/g2plot'
+import { PigService } from '../service/pig.service'
+
 export default {
   name: 'Attr',
+  data() {
+    return {
+      pig: { health: 0, simple: 0, fat: 0, clean: 0, solid: 0, power: 0 },
+      radarPlot: null
+    }
+  },
+  computed: {
+    data: function () {
+      return [
+        { name: '憨厚', point: this.pig.simple },
+        { name: '勇敢', point: this.pig.power },
+        { name: '卫生', point: this.pig.clean },
+        { name: '体重', point: this.pig.fat },
+        { name: '健康', point: this.pig.health },
+        { name: '结实', point: this.pig.solid }
+      ]
+    }
+  },
+  created() {
+    this.getMyPig()
+  },
+  methods: {
+    async getMyPig() {
+      const pig = await PigService.getMy()
+      this.pig = pig
+      this.radarPlot.changeData(this.data)
+    }
+  },
   mounted() {
-    const data = [
-      { name: '憨厚', star: 100 },
-      { name: '勇敢', star: 72 },
-      { name: '卫生', star: 33 },
-      { name: '体重', star: 207 },
-      { name: '健康', star: 200 },
-      { name: '结实', star: 80 }
-    ]
     const radarPlot = new Radar('c1', {
-      data: data.map((d) => ({ ...d, star: Math.log(d.star) })),
+      data: this.data,
       xField: 'name',
-      yField: 'star',
+      yField: 'point',
       meta: {
-        star: {
-          alias: 'star 数量',
+        point: {
+          alias: '点',
           min: 0,
-          nice: true,
-          formatter: (v) => Number(v).toFixed(2)
+          nice: true
         }
       },
       xAxis: {
@@ -38,12 +59,9 @@ export default {
           alternateColor: 'rgba(0, 0, 0, 0.04)'
         }
       },
-      // 开启辅助点
-      point: {
-        size: 2
-      },
       area: {}
     })
+    this.radarPlot = radarPlot
     radarPlot.render()
   }
 }
