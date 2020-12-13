@@ -1,15 +1,15 @@
 <template>
   <div>
-    <van-tabbar style="height: 30%; top: 0px">
+    <van-tabbar style="height: 24%; top: 0px">
       <div class="grid-container1">
         <div class="yourPig">
           <van-image width="100%" height="100%" :src="uiZhuzhu" />
         </div>
         <div class="yourState">
           <van-progress
-            style="margin-top: 20px"
+            style="margin-top: 10px"
             color="#ee0a24"
-            :percentage="55"
+            :percentage="enemyPigHpPer"
             stroke-width="8"
           />
           <van-row>
@@ -20,7 +20,7 @@
         </div>
       </div>
     </van-tabbar>
-    <van-tabbar style="height: 30%">
+    <van-tabbar style="height: 24%; bottom: 0px">
       <div class="grid-container2">
         <div class="myPig">
           <van-image width="100%" height="100%" :src="uiZhuzhu" />
@@ -34,14 +34,16 @@
           <van-progress
             style="margin-bottom: 20px"
             color="#ee0a24"
-            :percentage="85"
+            percentage="85"
             stroke-width="8"
           />
         </div>
         <div class="myMenu">
           <van-row>
             <van-col span="12"
-              ><van-button plain type="info" block>攻</van-button></van-col
+              ><van-button @click="attack" plain type="info" block
+                >攻</van-button
+              ></van-col
             >
             <van-col span="12"
               ><van-button plain type="info" block>守</van-button></van-col
@@ -62,10 +64,38 @@
 </template>
 
 <script>
+import { FightService } from '../service/fight.service'
+
 export default {
   data() {
     return {
+      enemyPigHpPer: 100,
       uiZhuzhu: require('../assets/ui/main_zhuzhu.gif')
+    }
+  },
+  async created() {
+    const stat = await this.getStat()
+    if (stat === null) {
+      console.log('新战斗')
+      await this.start()
+    } else {
+      console.log('旧战斗')
+    }
+  },
+  methods: {
+    async getStat() {
+      return FightService.getStat()
+    },
+    async start() {
+      return FightService.start()
+    },
+    async save(newProcess) {
+      return FightService.save(newProcess)
+    },
+    async attack() {
+      await this.save({ type: 'attack', damage: 11 })
+      this.enemyPigHpPer -= 5;
+      // 播放动画
     }
   }
 }
