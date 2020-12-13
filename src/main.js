@@ -2,11 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import VueAnime from 'vue-animejs'
 
 import {
   CellGroup, Cell, Button, Col, Row, Image as VanImage, Grid, GridItem, NavBar, Tabbar,
-  TabbarItem, Icon, Toast, Field, Tab, Tabs
+  TabbarItem, Icon, Toast, Field, Tab, Tabs, Search, Progress
 } from 'vant'
 import 'vant/lib/button/style'
 import 'vant/lib/col/style'
@@ -24,9 +23,11 @@ import 'vant/lib/cell-group/style'
 import 'vant/lib/field/style'
 import 'vant/lib/tabs/style'
 import 'vant/lib/tab/style'
+import 'vant/lib/search/style'
+import 'vant/lib/progress/style'
 
-Vue.config.productionTip = false
-
+Vue.use(Progress)
+Vue.use(Search)
 Vue.use(Tab)
 Vue.use(Tabs)
 Vue.use(Field)
@@ -43,8 +44,6 @@ Vue.use(Button)
 Vue.use(Col)
 Vue.use(Row)
 Vue.use(VanImage)
-
-Vue.use(VueAnime)
 
 new Vue({
   router,

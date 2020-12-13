@@ -1,15 +1,23 @@
 <template>
   <div class="app">
-    <van-nav-bar fixed placeholder safe-area-inset-top>
+    <van-nav-bar fixed placeholder safe-area-inset-top z-index="100">
       <template #right>
-        <p @click="goAttr">口</p>
+        {{ pig.name }}
+        <van-icon
+          style="margin-left: 8px"
+          size="40px"
+          @click="goAttr"
+          :name="avatarNormal"
+        />
       </template>
       <template #left>
-        <van-icon size="40px" :name="uiMoney" />333,887
+        <van-icon name="gem" size="24px" style="margin-right: 4px" />{{
+          pig.money.toLocaleString()
+        }}
       </template>
     </van-nav-bar>
-    <router-view class="center" />
-    <van-tabbar v-model="tabIndex" fixed route>
+    <router-view class="routeView" />
+    <van-tabbar v-model="tabIndex" fixed route z-index="100">
       <van-tabbar-item icon="home-o" replace to="/game/main"
         >猪</van-tabbar-item
       >
@@ -27,16 +35,26 @@
 </template>
 
 <script>
+import { PigService } from '../service/pig.service'
+
 export default {
   data() {
     return {
       tabIndex: 0,
-      uiMoney: require('../assets/ui/money.png')
+      avatarNormal: require('../assets/avatar/normal.png'),
+      pig: { name: '', money: 0 }
     }
+  },
+  created() {
+    this.getMyPig()
   },
   methods: {
     goAttr() {
       this.$router.push('/game/attr')
+    },
+    async getMyPig() {
+      const pig = await PigService.getMy()
+      this.pig = pig
     }
   }
 }
@@ -58,7 +76,7 @@ export default {
   display: none;
 }
 
-.center {
-  margin-bottom: 52px;
+.routeView {
+  width: 100%;
 }
 </style>

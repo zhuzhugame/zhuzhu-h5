@@ -2,10 +2,10 @@ import axios from 'axios';
 import { Notify } from 'vant';
 import store from '../store';
 
-export const PigService = {
-    getMy: async function () {
+export const FriendService = {
+    getList: async function () {
         try {
-            const { data } = await axios.get(`/api/pigs/my`, {
+            const { data } = await axios.get(`/api/friends`, {
                 headers: {
                     Authorization: store.getAccessToken()
                 }

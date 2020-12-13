@@ -14,16 +14,27 @@
         </van-cell-group>
       </van-tab>
       <van-tab title="铁匠猪">内容 2</van-tab>
-      <van-tab title="客服猪">内容 4</van-tab>
+      <van-tab title="商人猪">内容 2</van-tab>
+      <van-tab title="客服猪">
+        <van-button type="primary" block to="/reset_pig">换个新猪猪</van-button>
+        <van-button type="primary" block @click="goLogin">换个帐号</van-button>
+      </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
+import store from '../store'
 export default {
   data() {
     return {
       active: 0
+    }
+  },
+  methods: {
+    goLogin() {
+      store.removeAccessToken()
+      this.$router.push('/login')
     }
   }
 }

@@ -10,22 +10,33 @@ export const AuthService = {
             const { data } = await axios.post(`api/auth/login`, {
                 account, password
             })
-            store.commit("setToken", data.accessToken)
+            store.setAccessToken(data.accessToken, data.expiresIn)
             return data;
         } catch (e) {
             Notify({ type: 'danger', message: '连接失败, 请稍后再试' });
             return null;
         }
     },
+    signUp: async function (
+        account, password, name
+    ) {
+        try {
+            const { data } = await axios.post(`api/auth/register`, {
+                account, password, name
+            })
+            return data;
+        } catch (e) {
+            Notify({ type: 'danger', message: '连接失败, 请稍后再试' });
+            throw e;
+        }
+    },
     getUser: async function () {
         try {
-            const { data } = await axios.get(`api/auth/user`, {
+            return axios.get(`api/auth/user`, {
                 headers: {
-                    Authorization: store.getters.getToken
+                    Authorization: store.getAccessToken()
                 }
             })
-            store.commit("setPigId", data.pigId)
-            return data;
         } catch (e) {
             Notify({ type: 'danger', message: '连接失败, 请稍后再试' });
             return null;

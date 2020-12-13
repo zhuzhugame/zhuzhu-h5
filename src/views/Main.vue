@@ -2,18 +2,29 @@
   <div>
     <div class="empty"></div>
     <div class="grid-container">
-      <div class="zhuzhu"><Equipment mgs="50" :src="uiZhuzhu" /></div>
-      <div class="cap"><Equipment mgs="50" /></div>
-      <div class="clothes"><Equipment mgs="50" /></div>
-      <div class="shoe"><Equipment mgs="50" /></div>
-      <div class="weapon"><Equipment mgs="50" :src="weapon铁剑" /></div>
-      <div class="cloak"><Equipment mgs="50" /></div>
+      <div class="zhuzhu">
+        <van-image width="100%" height="100%" :src="uiZhuzhu" />
+      </div>
+      <div class="cap">
+        <Equipment :src="cap天使王冠" :level="0" />
+      </div>
+      <div class="clothes">
+        <Equipment :src="clothes三角裤" :level="5" />
+      </div>
+      <div class="shoe"><Equipment :src="shoe皮鞋" :level="10" /></div>
+      <div class="weapon">
+        <Equipment :src="weapon铁剑" :level="8" />
+      </div>
+      <div class="cloak">
+        <Equipment :src="cloak包裹" :level="0" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Equipment from '@/components/Equipment.vue'
+import { PigService } from '../service/pig.service'
 
 export default {
   name: 'Main',
@@ -23,7 +34,22 @@ export default {
   data() {
     return {
       uiZhuzhu: require('../assets/ui/main_zhuzhu.gif'),
-      weapon铁剑: require('../assets/weapon/铁剑.png')
+      weapon铁剑: require('../assets/weapon/铁剑.png'),
+      cap天使王冠: require('../assets/equipment/cap/天使王冠.png'),
+      cloak包裹: require('../assets/equipment/cloak/包裹.png'),
+      clothes三角裤: require('../assets/equipment/clothes/三角裤.png'),
+      shoe皮鞋: require('../assets/equipment/shoe/皮鞋.png'),
+
+      pig: { name: '', money: 0 }
+    }
+  },
+  created() {
+    this.getMyPig()
+  },
+  methods: {
+    async getMyPig() {
+      const pig = await PigService.getMy()
+      this.pig = pig
     }
   }
 }

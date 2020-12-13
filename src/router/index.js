@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { authGuard } from './authGuard'
+
 import Home from '../views/Home.vue'
 import Action from '../views/Action.vue'
 import Attr from '../views/Attr.vue'
@@ -9,6 +11,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Game from '../views/Game.vue'
 import Fight from '../views/Fight.vue'
+import ResetPig from '../views/ResetPig.vue'
 
 Vue.use(VueRouter)
 
@@ -27,31 +30,43 @@ const routes = [
   },
   {
     path: '/fight',
-    component: Fight
+    component: Fight,
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/reset_pig',
+    component: ResetPig,
+    beforeEnter: authGuard,
   },
   {
     path: '/game',
     component: Game,
+    beforeEnter: authGuard,
     children: [
       {
         path: 'home',
-        component: Home
+        component: Home,
+        beforeEnter: authGuard,
       },
       {
         path: 'action',
-        component: Action
+        component: Action,
+        beforeEnter: authGuard,
       },
       {
         path: 'attr',
-        component: Attr
+        component: Attr,
+        beforeEnter: authGuard,
       },
       {
         path: 'friend',
-        component: Friend
+        component: Friend,
+        beforeEnter: authGuard,
       },
       {
         path: 'main',
-        component: Main
+        component: Main,
+        beforeEnter: authGuard,
       },
     ],
   },

@@ -1,25 +1,20 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import VueCookies from 'vue-cookies'
 
-Vue.use(Vuex)
+Vue.use(VueCookies)
 
-export default new Vuex.Store({
-  state: {
-    token: null,
-    pigId: null,
-    userId: null,
+export default {
+  hasAccessToken: () => {
+    return Vue.$cookies.isKey('accessToken');
   },
-  getters: {
-    getToken: state => `Bearer ${state.token}`,
-    getPigId: state => state.pigId,
+  getAccessToken: () => {
+    const accessToken = Vue.$cookies.get('accessToken');
+    return `Bearer ${accessToken}`;
   },
-  mutations: {
-    setToken: (state, token) => { state.token = token },
-    setPigId: (state, pigId) => { state.pigId = pigId },
-    setUserId: (state, userId) => { state.userId = userId },
+  setAccessToken: (token, expiresIn) => {
+    Vue.$cookies.set('accessToken', token, expiresIn)
   },
-  actions: {
+  removeAccessToken: () => {
+    Vue.$cookies.remove('accessToken')
   },
-  modules: {
-  }
-})
+}

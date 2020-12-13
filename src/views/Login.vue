@@ -9,6 +9,7 @@
 
 <script>
 import { AuthService } from '../service/auth.service'
+import store from '../store'
 
 export default {
   name: 'Login',
@@ -16,6 +17,11 @@ export default {
     return {
       account: '',
       password: ''
+    }
+  },
+  created() {
+    if (store.hasAccessToken()) {
+      this.$router.push('/game/main')
     }
   },
   methods: {
@@ -26,9 +32,8 @@ export default {
       this.$router.push('/register')
     },
     async signIn() {
-      await AuthService.signIn(this.account, this.password)
-      const authUserData = await AuthService.getUser()
-      if (authUserData) this.$router.push('/game/main')
+      const data = await AuthService.signIn(this.account, this.password)
+      if (data) this.$router.push('/game/main')
     }
   }
 }

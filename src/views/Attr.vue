@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <div id="c1"></div>
+  <div class="body">
+    <div id="radar"></div>
+    <van-tabs type="card" class="nav">
+      <van-tab title="属性图"></van-tab>
+      <van-tab title="详细"></van-tab>
+      <van-tab title="绝活"></van-tab>
+    </van-tabs>
   </div>
 </template>
 
@@ -39,7 +44,7 @@ export default {
     }
   },
   mounted() {
-    const radarPlot = new Radar('c1', {
+    const radarPlot = new Radar('radar', {
       data: this.data,
       xField: 'name',
       yField: 'point',
@@ -68,4 +73,17 @@ export default {
 </script>
 
 <style scoped>
+.body {
+  position: relative;
+  width: 94%;
+  max-height: calc(100% - 120px);
+  padding: 3%;
+  height: 94%;
+}
+.nav {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  left: 0%;
+}
 </style>
