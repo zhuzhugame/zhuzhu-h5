@@ -2,23 +2,24 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { authGuard } from './authGuard'
 
-import Home from '../views/Home.vue'
-import Action from '../views/Action.vue'
-import Attr from '../views/Attr.vue'
-import Friend from '../views/Friend.vue'
-import Main from '../views/Main.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
-import Game from '../views/Game.vue'
-import Fight from '../views/Fight.vue'
-import ResetPig from '../views/ResetPig.vue'
+const Friend = () => import(/* webpackChunkName: "Friend" */ '../views/Friend.vue')
+const Attr = () => import(/* webpackChunkName: "Attr" */ '../views/Attr.vue')
+const ResetPig = () => import(/* webpackChunkName: "ResetPig" */ '../views/ResetPig.vue')
+const Register = () => import(/* webpackChunkName: "Register" */ '../views/Register.vue')
+const Main = () => import(/* webpackChunkName: "Main" */ '../views/Main.vue')
+const Login = () => import(/* webpackChunkName: "Login" */ '../views/Login.vue')
+const Loading = () => import(/* webpackChunkName: "Loading" */ '../views/Loading.vue')
+const Home = () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
+const Game = () => import(/* webpackChunkName: "Game" */ '../views/Game.vue')
+const Action = () => import(/* webpackChunkName: "Action" */ '../views/Action.vue')
+const Fight = () => import(/* webpackChunkName: "Fight" */ '../views/Fight.vue')
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    component: Login
+    component: Loading
   },
   {
     path: '/login',
@@ -32,6 +33,10 @@ const routes = [
     path: '/fight',
     component: Fight,
     beforeEnter: authGuard,
+  },
+  {
+    path: '/loading',
+    component: Loading,
   },
   {
     path: '/reset_pig',

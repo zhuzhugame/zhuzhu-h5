@@ -65,11 +65,13 @@
 
 <script>
 import { FightService } from '../service/fight.service'
+import { Audio } from '../audio/audio'
 
 export default {
   data() {
     return {
       enemyPigHpPer: 100,
+      audio玉满堂: new Audio([require('../assets/audio/玉满堂.mp3')]),
       uiZhuzhu: require('../assets/ui/main_zhuzhu.gif')
     }
   },
@@ -81,6 +83,10 @@ export default {
     } else {
       console.log('旧战斗')
     }
+    this.audio玉满堂.play()
+  },
+  beforeDestroy() {
+    this.audio玉满堂.stop()
   },
   methods: {
     async getStat() {
@@ -94,7 +100,7 @@ export default {
     },
     async attack() {
       await this.save({ type: 'attack', damage: 11 })
-      this.enemyPigHpPer -= 5;
+      this.enemyPigHpPer -= 5
       // 播放动画
     }
   }
