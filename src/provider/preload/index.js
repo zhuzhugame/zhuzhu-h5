@@ -5,15 +5,21 @@ export default {
         const queue = new LoadQueue(true);
         queue.installPlugin(SOUND);
         const assets = [];
-
+        queue.setMaxConnections(10);
         // 指定加载assets目录下的图片
         require.context('../../assets', true, /\.(jpg|jpeg|png|gif|mp3|wav|ogg)$/).keys().forEach(function (n) {
             const r = require('../../assets/' + n.replace('./', ''));
             if (/^data:/.test(r)) return;
             assets.push(r);
         });
-        assets.push(import(/* webpackChunkName: "g2plot" */ "@antv/g2plot"));
-        queue.loadManifest(assets);
+
+        queue.total = assets.length + 1;
+        import('../../router/loadRoute').then(() => {
+            queue._numItemsLoaded++;
+            queue.loadManifest(assets);
+        }).catch((err) => {
+            console.log(err)
+        })
         return queue;
     }
 }
