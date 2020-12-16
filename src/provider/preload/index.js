@@ -13,13 +13,7 @@ export default {
             assets.push(r);
         });
 
-        queue.total = assets.length + 1;
-        import('../../router/loadRoute').then(() => {
-            queue._numItemsLoaded++;
-            queue.loadManifest(assets);
-        }).catch((err) => {
-            console.log(err)
-        })
+        queue.loadManifest(assets);
         return queue;
     }
 }

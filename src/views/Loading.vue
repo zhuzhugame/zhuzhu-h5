@@ -1,8 +1,7 @@
 <template>
   <div>
     资源加载中...
-    <van-progress :percentage="percent" />
-    {{ loaded }} / {{ total }}
+    {{ percent }}% <br />{{ loaded }} / {{ total }}
   </div>
 </template>
 
@@ -12,28 +11,39 @@ import preload from '../provider/preload'
 export default {
   data() {
     return {
-      percent: 0,
-      size: 0,
       loaded: 0,
       total: 0
     }
   },
-  async mounted() {
+  watch: {
+    percent(newVal, oldVal) {
+      if (newVal === 100) {
+        setTimeout(() => {
+          this.$router.push('/login')
+        }, 600)
+      }
+    }
+  },
+  computed: {
+    percent: function () {
+      return Math.floor((this.loaded / this.total) * 100)
+    }
+  },
+  mounted() {
     const queue = preload.getQueue()
-    this.loaded = queue._numItemsLoaded
-    this.total = queue.total
-    queue.on('progress', (event) => {
-      this.loaded = queue._numItemsLoaded
-      this.percent = Math.floor((this.loaded / this.total) * 100)
+    this.total = queue._numItems
+    this.total += 2
+    import('../vant').then(() => {
+      this.loaded++
+    })
+    import('../router/loadRoute').then(() => {
+      this.loaded++
+    })
+    queue.on('fileload', (event) => {
+      this.loaded++
     })
     queue.on('error', (event) => {
       console.log(event)
-    })
-    queue.on('complete', () => {
-      this.percent = 100
-      setTimeout(() => {
-        this.$router.push('/login')
-      }, 1000)
     })
   }
 }
