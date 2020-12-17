@@ -13,7 +13,7 @@
           </van-grid>
         </van-cell-group>
       </van-tab>
-      <van-tab title="铁匠猪">内容 2</van-tab>
+      <van-tab title="铁匠猪"><RefineShop /></van-tab>
       <van-tab title="商人猪">内容 2</van-tab>
       <van-tab title="客服猪">
         <van-button type="primary" block to="/reset_pig">换个新猪猪</van-button>
@@ -24,8 +24,13 @@
 </template>
 
 <script>
+import RefineShop from '@/components/RefineShop.vue'
 import store from '../store'
+
 export default {
+  components: {
+    RefineShop
+  },
   data() {
     return {
       active: 0

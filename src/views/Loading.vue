@@ -17,10 +17,10 @@ export default {
   },
   watch: {
     percent(newVal, oldVal) {
-      if (newVal === 100) {
+      if (newVal >= 100) {
         setTimeout(() => {
           this.$router.push('/login')
-        }, 600)
+        }, 1000)
       }
     }
   },

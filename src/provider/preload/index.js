@@ -5,7 +5,7 @@ export default {
         const queue = new LoadQueue(true);
         queue.installPlugin(SOUND);
         const assets = [];
-        queue.setMaxConnections(10);
+        queue.setMaxConnections(4);
         // 指定加载assets目录下的图片
         require.context('../../assets', true, /\.(jpg|jpeg|png|gif|mp3|wav|ogg)$/).keys().forEach(function (n) {
             const r = require('../../assets/' + n.replace('./', ''));

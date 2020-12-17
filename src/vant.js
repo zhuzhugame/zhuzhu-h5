@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import {
   CellGroup, Cell, Button, Col, Row, Image as VanImage, Grid, GridItem, NavBar, Tabbar,
-  TabbarItem, Icon, Toast, Field, Tab, Tabs, Search, Progress
+  TabbarItem, Icon, Toast, Field, Tab, Tabs, Search, Progress,Swipe, SwipeItem
 } from 'vant'
 import 'vant/lib/button/style'
 import 'vant/lib/col/style'
@@ -22,7 +22,11 @@ import 'vant/lib/tabs/style'
 import 'vant/lib/tab/style'
 import 'vant/lib/search/style'
 import 'vant/lib/progress/style'
+import 'vant/lib/swipe/style'
+import 'vant/lib/swipe-item/style'
 
+Vue.use(Swipe)
+Vue.use(SwipeItem)
 Vue.use(Progress)
 Vue.use(Search)
 Vue.use(Tab)
