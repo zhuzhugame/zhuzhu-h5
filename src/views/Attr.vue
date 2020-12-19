@@ -2,8 +2,9 @@
   <div class="body">
     <div id="radar"></div>
     <van-tabs type="card" class="nav">
-      <van-tab title="体检图1"></van-tab>
+      <van-tab title="体检图"></van-tab>
       <van-tab title="详细"></van-tab>
+      <van-tab title="包裹"></van-tab>
       <van-tab title="绝活"></van-tab>
     </van-tabs>
   </div>

@@ -32,11 +32,14 @@ export default {
   mounted() {
     const queue = preload.getQueue()
     this.total = queue._numItems
-    this.total += 2
+    this.total += 3
     import('../vant').then(() => {
       this.loaded++
     })
     import('../router/loadRoute').then(() => {
+      this.loaded++
+    })
+    import('../components/preload').then(() => {
       this.loaded++
     })
     queue.on('fileload', (event) => {

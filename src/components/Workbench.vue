@@ -1,7 +1,9 @@
 <template>
   <div>
     <van-image width="100%" height="100%" :src="uiZhuzhu" />
-    <van-button type="primary" @click="showWorkbench()">帮忙锤一下</van-button>
+    <van-button type="primary" @click="showWorkbench()">强化</van-button>
+    <van-button type="primary" @click="showWorkbench()">精炼</van-button>
+    <van-button type="primary" @click="showWorkbench()">修理</van-button>
     <div v-if="isShowWorkbench" class="workbench">
       <van-swipe
         v-if="isShowWorkbench"
@@ -14,14 +16,14 @@
         <van-swipe-item>3</van-swipe-item>
         <van-swipe-item>4</van-swipe-item>
       </van-swipe>
-          <van-button type="primary" @click="showWorkbench()">锤吧锤吧</van-button>
+      <van-button type="primary" @click="showWorkbench()">锤吧锤吧</van-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RefineShop',
+  name: 'Workbench',
   props: {},
   data() {
     return {

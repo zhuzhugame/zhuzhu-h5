@@ -8,6 +8,9 @@ import Login from '../views/Login'
 import Main from '../views/Main'
 import Register from '../views/Register'
 import ResetPig from '../views/ResetPig'
+import ReadyFriend from '../views/ReadyFriend'
+import SearchFriend from '../views/SearchFriend'
+
 import { authGuard } from './authGuard'
 import router from './'
 
@@ -53,6 +56,16 @@ const routes = [
             {
                 path: 'friend',
                 component: Friend,
+                beforeEnter: authGuard,
+            },
+            {
+                path: 'ready_friend',
+                component: ReadyFriend,
+                beforeEnter: authGuard,
+            },
+            {
+                path: 'search_friend',
+                component: SearchFriend,
                 beforeEnter: authGuard,
             },
             {
