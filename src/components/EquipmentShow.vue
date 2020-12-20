@@ -76,6 +76,7 @@ export default {
         ? await this.unwear(this.pigEquipmentId)
         : await this.wear(this.pigEquipmentId)
       this.$parent.getMyPigEquipments()
+      this.$parent.getMyPig()
       this.show = false
     },
     onPointClicked() {

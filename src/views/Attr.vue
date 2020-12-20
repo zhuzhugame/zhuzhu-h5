@@ -11,7 +11,7 @@
           v-for="item in data"
           :key="item.name"
           :title="item.name"
-          :value="item.point"
+          :value="`${item.最终} (+${item.最终 - item.基础})`"
         />
       </van-cell-group>
     </div>
@@ -47,6 +47,7 @@
 
 <script>
 import { Radar } from '@antv/g2plot'
+import { DataSet } from '@antv/data-set'
 import { PigService } from '../service/pig.service'
 import { AssetsService } from '../service/assets.service'
 import EquipmentShow from '@/components/EquipmentShow.vue'
@@ -58,6 +59,7 @@ export default {
   name: 'Attr',
   data() {
     return {
+      dv: null,
       pig: {
         name: '',
         health: 0,
@@ -75,12 +77,12 @@ export default {
   computed: {
     data: function () {
       return [
-        { name: '憨厚', point: this.pig.simple },
-        { name: '勇敢', point: this.pig.power },
-        { name: '卫生', point: this.pig.clean },
-        { name: '体重', point: this.pig.fat },
-        { name: '健康', point: this.pig.health },
-        { name: '结实', point: this.pig.solid }
+        { name: '憨厚', 基础: this.pig.simple, 最终: this.pig.endSimple },
+        { name: '勇敢', 基础: this.pig.power, 最终: this.pig.endPower },
+        { name: '卫生', 基础: this.pig.clean, 最终: this.pig.endClean },
+        { name: '体重', 基础: this.pig.fat, 最终: this.pig.endFat },
+        { name: '健康', 基础: this.pig.health, 最终: this.pig.endHealth },
+        { name: '结实', 基础: this.pig.solid, 最终: this.pig.endSolid }
       ]
     }
   },
@@ -97,7 +99,18 @@ export default {
     async getMyPig() {
       const pig = await PigService.getMy()
       this.pig = pig
-      this.radarPlot.changeData(this.data)
+      this.radarPlot.changeData(this.getDvRows())
+    },
+    getDvRows() {
+      const { DataView } = DataSet
+      const dv = new DataView().source(this.data)
+      dv.transform({
+        type: 'fold',
+        fields: ['基础', '最终'], // 展开字段集
+        key: 'user', // key字段
+        value: 'score' // value字段
+      })
+      return dv.rows
     },
     async getMyPigEquipments() {
       const pigEquipments = await PigService.getMyEquipments()
@@ -111,20 +124,29 @@ export default {
       })
     }
   },
-  mounted() {
+  async mounted() {
     const radarPlot = new Radar('radar', {
-      data: this.data,
+      data: [],
       xField: 'name',
-      yField: 'point',
+      yField: 'score',
+      seriesField: 'user',
       meta: {
-        point: {
-          alias: '点',
+        score: {
+          alias: '分数',
           min: 0,
           nice: true
         }
       },
       xAxis: {
-        tickLine: null
+        line: null,
+        tickLine: null,
+        grid: {
+          line: {
+            style: {
+              lineDash: null
+            }
+          }
+        }
       },
       yAxis: {
         label: false,
