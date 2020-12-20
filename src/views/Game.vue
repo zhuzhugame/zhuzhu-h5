@@ -2,7 +2,7 @@
   <div class="app">
     <van-nav-bar fixed placeholder safe-area-inset-top z-index="100">
       <template #right>
-        {{ pig.name }}
+        <span @click="goAttr">{{ pig.name }}</span>
         <van-icon
           style="margin-left: 8px"
           size="40px"

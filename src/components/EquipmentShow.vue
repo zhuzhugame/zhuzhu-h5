@@ -2,26 +2,28 @@
   <div>
     <van-sku
       v-model="show"
-      stepper-title="数量"
+      disable-stepper-input
       :sku="sku"
       :goods="goods"
       :goods-id="goodsId"
       :quota="quota"
       :quota-used="quotaUsed"
       :hide-stock="sku.hide_stock"
-      show-add-cart-btn
       reset-stepper-on-hide
       :initial-sku="initialSku"
-      @buy-clicked="onBuyClicked"
     >
       <template #sku-header-extra>
-        <span>{{ saleItem.name }}</span>
-        <span>{{ saleItem.desc }}</span>
+        <span>{{ equipment.name }}</span>
+        <span>{{ equipment.desc }}</span>
       </template>
 
       <template #sku-messages>
+        <van-cell-group title="信息">
+          <van-cell clickable title="精炼 Lv" :value="refineLv" />
+          <van-cell clickable title="强化 Lv" :value="strongLv" />
+        </van-cell-group>
         <van-cell-group title="属性">
-          <van-cell clickable title="勇气" :value="saleItem.power" />
+          <van-cell clickable title="勇气" :value="equipment.power" />
         </van-cell-group>
         <van-cell-group title="精炼">
           <van-cell clickable value="精炼+5时, 习得天猪下凡" />
@@ -36,60 +38,63 @@
         </div>
       </template>
 
-      <!-- 自定义 sku actions -->
-      <template #sku-actions="props">
+      <template #sku-actions>
         <div class="van-sku-actions">
-          <van-button
-            square
-            size="large"
-            type="warning"
-            @click="onPointClicked"
-          >
-            猪境贫寒
-          </van-button>
-          <!-- 直接触发 sku 内部事件，通过内部事件执行 onBuyClicked 回调 -->
-          <van-button
-            square
-            size="large"
-            type="danger"
-            @click="props.skuEventBus.$emit('sku:buy')"
-          >
-            买买买!
+          <van-button square size="large" type="danger" @click="wearOrUnwear">
+            {{ carrying ? '卸下' : '装备' }}
           </van-button>
         </div>
+      </template>
+
+      <template #sku-stepper>
+        <div></div>
       </template>
     </van-sku>
   </div>
 </template>
 
 <script>
-import { Toast } from 'vant'
-import { EquipmentService } from '../service/equipment.service'
+import { PigService } from '../service/pig.service'
+
 export default {
-  name: 'Shop',
+  name: 'EquipmentShow',
   props: {},
   methods: {
     open(data) {
       this.show = true
-      this.goods.picture = data.saleItem.img
-      this.sku.price = data.saleItem.baseMoney
-      this.saleItem = data.saleItem
-      this.goodsId = data.saleItem._id
+      this.goods.picture = data.equipment.img
+      this.sku.price = data.equipment.baseMoney
+      this.equipment = data.equipment
+      this.goodsId = data.equipment._id
+      this.refineLv = data.refineLv
+      this.strongLv = data.strongLv
+      this.carrying = data.carrying
+      this.pigEquipmentId = data.pigEquipmentId
     },
-    onBuyClicked(sku) {
-      EquipmentService.buy(sku.goodsId, sku.selectedNum).then((res) => {
-        Toast.setDefaultOptions({ duration: 1000 })
-        Toast.success('购买成功')
-        this.show = false
-      })
+    async wearOrUnwear() {
+      this.carrying
+        ? await this.unwear(this.pigEquipmentId)
+        : await this.wear(this.pigEquipmentId)
+      this.$parent.getMyPigEquipments()
+      this.show = false
     },
     onPointClicked() {
       this.show = false
+    },
+    async wear(id) {
+      await PigService.wearEquipment(id)
+    },
+    async unwear(id) {
+      await PigService.unwearEquipment(id)
     }
   },
   data() {
     return {
-      saleItem: { name: '' },
+      pigEquipmentId: '',
+      carrying: false,
+      refineLv: 0,
+      strongLv: 0,
+      equipment: { name: '' },
       show: false,
       messageConfig: {},
       quota: 0,

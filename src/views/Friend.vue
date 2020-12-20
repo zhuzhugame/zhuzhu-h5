@@ -19,7 +19,7 @@
         label="我的备注"
       >
         <template #default>
-          <van-button @click="deleteFriend(friend._id)" type="primary"
+          <van-button @click="deleteFriend(friend._id)" type="danger"
             >抛弃</van-button
           >
         </template>

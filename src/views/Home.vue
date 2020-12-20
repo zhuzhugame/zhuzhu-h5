@@ -17,14 +17,17 @@
       <van-tab title="猪猪商社">
         <Shop ref="shop" />
         <van-cell-group title="武器猪">
-          <van-grid :column-num="2">
+          <van-grid :column-num="3">
             <van-grid-item
-              v-for="value in 7"
-              @click="showBuyDialog"
-              :key="value"
-              icon="photo-o"
-              text="文字"
-            />
+              v-for="saleItem in shopSaleList"
+              @click="showBuyDialog(saleItem)"
+              :key="saleItem._id"
+              :text="saleItem.name"
+            >
+              <template #icon>
+                <van-image width="40px" height="40px" :src="saleItem.img" />
+              </template>
+            </van-grid-item>
           </van-grid> </van-cell-group
       ></van-tab>
       <van-tab title="客服猪">
@@ -39,6 +42,8 @@
 import Workbench from '@/components/Workbench.vue'
 import Shop from '@/components/Shop.vue'
 import store from '../store'
+import { EquipmentService } from '../service/equipment.service'
+import { AssetsService } from '../service/assets.service'
 
 export default {
   components: {
@@ -47,18 +52,29 @@ export default {
   },
   data() {
     return {
+      activeKey: 0,
       active: 0,
-      image: null
+      image: null,
+      shopSaleList: []
     }
+  },
+  created() {
+    this.getShopSaleList()
   },
   methods: {
     goLogin() {
       store.removeAccessToken()
       this.$router.push('/login')
     },
-    showBuyDialog() {
+    showBuyDialog(saleItem) {
       this.$refs.shop.open({
-        image: require('../assets/weapon/铁剑.png')
+        saleItem
+      })
+    },
+    async getShopSaleList() {
+      this.shopSaleList = await EquipmentService.findAllSale()
+      this.shopSaleList.forEach((v) => {
+        Object.assign(v, { img: AssetsService.getById(v.imgId) })
       })
     }
   }
@@ -67,4 +83,3 @@ export default {
 
 <style scoped>
 </style>
-`

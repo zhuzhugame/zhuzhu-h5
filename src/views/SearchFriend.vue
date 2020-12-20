@@ -3,9 +3,12 @@
     <van-search
       v-model="value"
       shape="round"
-      background="#4fc08d"
+      show-action
       placeholder="搜索猪猪ID、昵称"
+      action-text="返回"
+      input-align="center"
       @search="search"
+      @cancel="goBack"
     />
     <van-cell-group>
       <van-cell
@@ -64,6 +67,9 @@ export default {
         await FriendService.add(friendSearchVo.pig._id)
         await this.search()
       } catch {}
+    },
+    goBack() {
+      this.$router.back()
     }
   }
 }
